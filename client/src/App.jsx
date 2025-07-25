@@ -7,10 +7,14 @@ import Mycart from "./pages/Mycart";
 import CreateAccount from "./pages/CreateAccount";
 import AdminLogin from "./pages/AdminLogin";
 import Admin from "./pages/Admin";
+import { ToastContainer } from "react-toastify";
+import Header from "./components/Header";
 const App = () => {
   return (
     <>
+      <ToastContainer />
       <BrowserRouter>
+        <Header />
         <Routes>
           <Route path="/" element={<Login />}></Route>
           <Route path="/home" element={<Home />}></Route>

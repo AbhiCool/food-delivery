@@ -1,9 +1,19 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { UserDataContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { serverUrls } from "../constants";
+import PizzaCard from "../components/PizzaCard";
+import Header from "../components/Header";
+import { fetchPizzas } from "../redux/slice/pizzaSlice";
 
+import { useDispatch, useSelector } from "react-redux";
+import PizzaLoader from "../components/PizzaLoader";
 const Home = () => {
   const navigate = useNavigate();
+  const { pizzas, loading, error } = useSelector((state) => state.pizza);
+
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     cheeseandcorn: 0,
     capsicum: 0,
@@ -18,7 +28,16 @@ const Home = () => {
     0;
   };
 
-  const { user, setUser } = useContext(UserDataContext);
+  const {
+    user,
+    setUser,
+    searchField,
+    setCategories,
+    diplayPizzas,
+    setDiplayPizzas,
+    activeCategory,
+    setActiveCategory,
+  } = useContext(UserDataContext);
 
   console.log("user", user);
 
@@ -39,53 +58,45 @@ const Home = () => {
     navigate("/mycart");
   };
 
-  if (user) {
-    return (
-      <>
-        <h1>Welcome {user.userid}</h1>
-        <h2>Your Order will be Delivered to {user.address}</h2>
-        <h3>Order ID: {user.orderid}</h3>
-        <form onSubmit={finalOrder}>
-          <input
-            type="number"
-            name="cheeseandcorn"
-            min="0"
-            value={formData.cheeseandcorn}
-            onChange={handleFieldChange}
-          />
-          <input
-            type="number"
-            name="capsicum"
-            min="0"
-            value={formData.capsicum}
-            onChange={handleFieldChange}
-          />
+  useEffect(() => {
+    dispatch(fetchPizzas());
+  }, []);
 
-          <input
-            type="number"
-            name="margherita"
-            min="0"
-            value={formData.margherita}
-            onChange={handleFieldChange}
-          />
-          <input
-            type="number"
-            name="onion"
-            min="0"
-            value={formData.onion}
-            onChange={handleFieldChange}
-          />
-          <button type="submit">Add Pizza</button>
-        </form>
-      </>
+  useEffect(() => {
+    setCategories(["All", ...new Set(pizzas.map((pizza) => pizza.category))]);
+  }, [pizzas]);
+
+  useEffect(() => {
+    console.log("useeffect", pizzas, searchField, activeCategory);
+    if (searchField === "" && activeCategory === "All")
+      return setDiplayPizzas(pizzas);
+
+    console.log("hhh");
+    setDiplayPizzas(
+      pizzas.filter(
+        (pizza) =>
+          pizza.name.toLowerCase().includes(searchField.toLowerCase()) &&
+          (pizza.category === activeCategory || activeCategory === "All")
+      )
     );
-  } else {
-    return (
-      <>
-        <h1>You are not Logged In</h1>
-      </>
-    );
-  }
+  }, [pizzas, searchField, activeCategory]);
+
+  if (loading) return <PizzaLoader />;
+  if (error) return <p>Error: {error}</p>;
+
+  return (
+    <>
+      <div
+        className="
+      mx-auto max-w-7xl px-4 sm:px-6 lg:px-8
+      grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+      >
+        {diplayPizzas.map((pizza) => (
+          <PizzaCard key={pizza._id} {...pizza} />
+        ))}
+      </div>
+    </>
+  );
 };
 
 export default Home;

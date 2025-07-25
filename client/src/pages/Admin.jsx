@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserDataContext } from "../context/UserContext";
+import { serverUrls } from "../constants";
+import axios from "axios";
 
 const Admin = () => {
   const { user, setUser } = useContext(UserDataContext);
@@ -10,7 +12,11 @@ const Admin = () => {
   useEffect(() => {
     const fetchData = async () => {
       console.log("fetching data");
+
       // call api and wiil receive all order details
+      const res = await axios.get(serverUrls.getOrders);
+      const data = res.data;
+      setOrderData(data.orders);
     };
     fetchData();
   }, []);
@@ -28,10 +34,10 @@ const Admin = () => {
             </tr>
           </thead>
           <tbody>
-            {orderData.map((order) => (
-              <tr>
-                {Object.values(order).map((value, i) => (
-                  <td key={i}>{value}</td>
+            {orderData.map((order, i) => (
+              <tr key={i}>
+                {Object.values(order).map((value, j) => (
+                  <td key={j}>{value}</td>
                 ))}
               </tr>
             ))}
