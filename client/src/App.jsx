@@ -9,6 +9,7 @@ import AdminLogin from "./pages/AdminLogin";
 import Admin from "./pages/Admin";
 import { ToastContainer } from "react-toastify";
 import Header from "./components/Header";
+import MyOrders from "./pages/MyOrders";
 const App = () => {
   return (
     <>
@@ -16,12 +17,13 @@ const App = () => {
       <BrowserRouter>
         <Header />
         <Routes>
-          <Route path="/" element={<Login />}></Route>
-          <Route path="/home" element={<Home />}></Route>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/" element={<Home />}></Route>
           <Route path="/mycart" element={<Mycart />}></Route>
           <Route path="/createAccount" element={<CreateAccount />}></Route>
           <Route path="/admin" element={<Admin />}></Route>
           <Route path="/adminlogin" element={<AdminLogin />}></Route>
+          <Route path="/myorders" element={<MyOrders />}></Route>
           <Route
             path="*"
             element={<h1>Sorry, the page does not exist</h1>}

@@ -1,5 +1,6 @@
 "use client";
 
+import { IoMdLogOut } from "react-icons/io";
 import { Fragment, useContext, useState } from "react";
 import {
   Dialog,
@@ -21,12 +22,16 @@ import {
   ShoppingBagIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { Link, NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { GiFullPizza } from "react-icons/gi";
 import { UserDataContext } from "../context/UserContext";
+import { toast } from "react-toastify";
+import { cartActions } from "../redux/slice/cartSlice";
 
 export default function Header() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
   const cartItems = useSelector((state) => state.cart.cartItems);
@@ -38,6 +43,13 @@ export default function Header() {
     setCategories,
     setActiveCategory,
   } = useContext(UserDataContext);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+    toast.success("Logged out successfully");
+    dispatch(cartActions.clearCart());
+  };
 
   return (
     <div className="bg-white">
@@ -89,7 +101,7 @@ export default function Header() {
                       to="/myorders"
                       className="-m-2 block p-2 font-medium text-gray-900"
                     >
-                      My Orders
+                      Order History
                     </Link>
                   </div>
                 </>
@@ -97,7 +109,7 @@ export default function Header() {
                 <>
                   <div className="flow-root">
                     <Link
-                      to="/"
+                      to="/login"
                       className="-m-2 block p-2 font-medium text-gray-900"
                     >
                       Sign in
@@ -142,7 +154,7 @@ export default function Header() {
               <button
                 type="button"
                 onClick={() => setOpen(true)}
-                className="relative rounded-md bg-white p-2 text-gray-400 lg:hidden"
+                className="relative rounded-md bg-white p-2 text-gray-400 lg:hidden cursor-pointer"
               >
                 <span className="absolute -inset-0.5" />
                 <span className="sr-only">Open menu</span>
@@ -151,7 +163,7 @@ export default function Header() {
 
               {/* Logo */}
               <div className="ml-4 flex lg:ml-0">
-                <Link to="/home">
+                <Link to="/">
                   <span className="sr-only">Your Company</span>
                   <GiFullPizza className="mx-auto h-8 w-auto text-red-600" />
                 </Link>
@@ -183,13 +195,13 @@ export default function Header() {
                         to="/myorders"
                         className="text-sm font-medium text-gray-700 hover:text-gray-800"
                       >
-                        My Orders
+                        Order History
                       </Link>
                     </>
                   ) : (
                     <>
                       <Link
-                        to="/"
+                        to="/login"
                         className="text-sm font-medium text-gray-700 hover:text-gray-800"
                       >
                         Sign in
@@ -242,6 +254,16 @@ export default function Header() {
                     <span className="sr-only">items in cart, view bag</span>
                   </Link>
                 </div>
+
+                {localStorage.getItem("token") && (
+                  <div className="ml-4 flow-root lg:ml-6">
+                    <IoMdLogOut
+                      onClick={handleLogout}
+                      title="Logout"
+                      className="cursor-pointer text-2xl text-gray-600"
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </div>

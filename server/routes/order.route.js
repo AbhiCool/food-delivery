@@ -6,6 +6,6 @@ const isAuthenticated = require("../middlewares/isAuthenticated");
 
 router.post("/placeorder", isAuthenticated, orderController.placeOrder);
 
-router.get("/getorders", orderController.getOrders);
+router.get("/getorders", isAuthenticated, orderController.getOrders);
 
 module.exports = router;

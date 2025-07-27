@@ -45,7 +45,7 @@ const Mycart = () => {
   };
 
   const handleGoToHome = () => {
-    navigate("/home");
+    navigate("/");
   };
   const placeOrder = async (e) => {
     e.preventDefault();
@@ -86,7 +86,7 @@ const Mycart = () => {
 
       setUser(finaldata);
 
-      navigate("/home");
+      navigate("/");
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);

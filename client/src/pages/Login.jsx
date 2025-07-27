@@ -37,7 +37,7 @@ const Login = () => {
 
       toast.success(data.message);
       if (data.user.isAdmin) navigate("/admin");
-      else navigate("/home");
+      else navigate("/");
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);

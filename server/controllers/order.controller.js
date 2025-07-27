@@ -22,10 +22,15 @@ exports.placeOrder = async (req, res, next) => {
 
 exports.getOrders = async (req, res, next) => {
   try {
-    const orders = await orderModel.find({});
+    const orders = await orderModel
+      .find({
+        userid: req.user.id,
+      })
+      .sort({ createdAt: -1 });
 
     res.status(200).json({
       status: true,
+      message: "Orders fetched successfully",
       orders,
     });
   } catch (error) {
