@@ -55,7 +55,7 @@ const Mycart = () => {
     console.log("token", token);
     if (!token) {
       toast.error("Please login first to place order");
-      navigate("/");
+      navigate("/login");
       return;
     }
 
