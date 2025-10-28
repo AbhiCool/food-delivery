@@ -5,18 +5,7 @@ import { FaCartPlus } from "react-icons/fa";
 import { MdShoppingCartCheckout } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
-const PizzaCard = ({
-  name,
-  image,
-  price,
-  isVeg,
-  ingredients,
-  recipe,
-  spicyLevel,
-  category,
-  rating,
-  _id,
-}) => {
+const PizzaCard = ({ name, image, price, _id }) => {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const dispatch = useDispatch();
 

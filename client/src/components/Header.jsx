@@ -40,7 +40,7 @@ export default function Header() {
     searchField,
     setSearchField,
     categories,
-    setCategories,
+    activeCategory,
     setActiveCategory,
   } = useContext(UserDataContext);
 
@@ -177,9 +177,12 @@ export default function Header() {
                       key={category}
                       onClick={() => {
                         console.log("category", category);
+                        navigate("/");
                         setActiveCategory(category);
                       }}
-                      className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800 cursor-pointer"
+                      className={`flex items-center text-sm font-medium text-gray-700 hover:underline cursor-pointer ${
+                        category === activeCategory && "text-red-600"
+                      }`}
                     >
                       {category}
                     </div>

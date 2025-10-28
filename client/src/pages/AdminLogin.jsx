@@ -5,7 +5,7 @@ import { UserDataContext } from "../context/UserContext";
 const AdminLogin = () => {
   const navigate = useNavigate();
 
-  const { user, setUser } = useContext(UserDataContext);
+  const { setUser } = useContext(UserDataContext);
   const [formData, setFormData] = useState({
     userid: "",
     password: "",

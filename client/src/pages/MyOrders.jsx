@@ -28,10 +28,7 @@ const MyOrders = () => {
         <p className="text-center text-gray-500">No orders found.</p>
       ) : (
         orders.map(
-          (
-            { id, createdAt, total, shipping, grandTotal, cartItems },
-            index
-          ) => (
+          ({ id, createdAt, total, shipping, grandTotal, cartItems }) => (
             <div
               key={id}
               className="border border-gray-300 rounded-lg shadow-sm p-6 mb-6 bg-white hover:shadow-md transition-shadow duration-200"

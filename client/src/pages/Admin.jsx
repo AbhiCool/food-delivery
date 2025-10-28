@@ -4,7 +4,7 @@ import { serverUrls } from "../constants";
 import axios from "axios";
 
 const Admin = () => {
-  const { user, setUser } = useContext(UserDataContext);
+  const { user } = useContext(UserDataContext);
   const [orderData, setOrderData] = useState([
     { Column1: "No Data", Column2: "No Data" },
   ]);

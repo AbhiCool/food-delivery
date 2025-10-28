@@ -1,4 +1,5 @@
-import React, { Children, createContext, useState } from "react";
+import React, { Children, createContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const UserDataContext = createContext(null);
 const UserContext = ({ children }) => {
@@ -9,6 +10,7 @@ const UserContext = ({ children }) => {
   const [diplayPizzas, setDiplayPizzas] = useState([]);
 
   const [activeCategory, setActiveCategory] = useState("All");
+
   return (
     <UserDataContext.Provider
       value={{
